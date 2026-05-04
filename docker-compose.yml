@@ -1,0 +1,82 @@
+# docker-compose.yml  —  CHANGED
+# Added: timescaledb service for timeseries aggregations (was missing entirely)
+# Fixed: postgres env vars were inconsistent between compose and .env
+
+version: '3.8'
+
+services:
+
+  # ── Source of Truth: transactional Work Items & RCA ─────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: priyanshu123
+      POSTGRES_DB: ims_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d ims_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── Timeseries Aggregations sink (NEW) ───────────────────────────────────────
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: priyanshu123
+      POSTGRES_DB: ims_metrics
+    ports:
+      - "5433:5432"
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+
+  # ── Data Lake: high-volume raw signal audit logs ──────────────────────────
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # ── Hot-Path: debouncing + dashboard cache ────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # ── Python Backend Engine ─────────────────────────────────────────────────
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+      redis:
+        condition: service_started
+      timescaledb:
+        condition: service_started
+    volumes:
+      - ./backend:/app
+
+  # ── React Frontend ────────────────────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  mongo_data:
+  timescale_data:

@@ -1,0 +1,10 @@
+fastapi[all]          # API Framework
+uvicorn               # ASGI Server
+sqlalchemy[asyncio]   # SQL ORM (PostgreSQL)
+asyncpg               # Async Postgres driver
+motor                 # Async MongoDB driver
+redis                 # Redis client for debouncing [cite: 11, 14]
+pydantic-settings     # Environment management
+tenacity              # Retry logic for DB resilience [cite: 48]
+python-multipart      # Form data support for RCA [cite: 37]
+slowapi               # Rate Limiting (wraps limits library)
