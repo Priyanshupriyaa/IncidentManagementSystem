@@ -8,25 +8,25 @@ A resilient, high-throughput system for monitoring distributed infrastructure fa
 
 ```
                           ┌─────────────────────────────────────────────┐
-                          │              React Dashboard (3000)          │
-                          │  Live Feed · Incident Detail · RCA Form      │
+                          │              React Dashboard (3000)         │
+                          │  Live Feed · Incident Detail · RCA Form     │
                           └──────────────────┬──────────────────────────┘
                                              │ REST (axios, 5s poll)
                           ┌──────────────────▼──────────────────────────┐
-                          │         FastAPI Backend (8000)               │
-                          │                                              │
+                          │         FastAPI Backend (8000)              │
+                          │                                             │
                           │  POST /api/v1/ingest  ──►  Rate Limiter     │
-                          │         │                   (slowapi 429)    │
-                          │         ▼                                    │
+                          │         │                   (slowapi 429)   │
+                          │         ▼                                   │
                           │  asyncio.Queue (50k slots) ◄── backpressure │
-                          │         │                                    │
-                          │         ▼                                    │
-                          │  Worker Coroutine                            │
-                          │  ├─ MongoDB  (raw signals / data lake)       │
+                          │         │                                   │
+                          │         ▼                                   │
+                          │  Worker Coroutine                           │
+                          │  ├─ MongoDB  (raw signals / data lake)      │
                           │  └─ Postgres (WorkItems / RCA / source of truth)
                           │                                              │
                           │  GET /api/v1/incidents/                      │
-                          │  ├─ Redis cache (5s TTL) ── hit ──► return  │
+                          │  ├─ Redis cache (5s TTL) ── hit ──► return   │
                           │  └─ Postgres ── miss ──► cache + return      │
                           │                                              │
                           │  PUT /api/v1/incidents/:id/status            │
