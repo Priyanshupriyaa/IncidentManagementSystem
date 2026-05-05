@@ -1,0 +1,140 @@
+
+body { background-color: #0f172a; color: white; margin: 0; font-family: 'Inter', sans-serif; }
+.navbar { display: flex; justify-content: space-between; padding: 20px 40px; background: #1e293b; border-bottom: 1px solid #334155; }
+.status { color: #22c55e; }
+.container { padding: 40px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.card { background: #1e293b; padding: 20px; border-radius: 12px; border-top: 5px solid #64748b; position: relative; }
+.card.P0 { border-top-color: #ef4444; }
+.card.P1 { border-top-color: #f59e0b; }
+.card.P2 { border-top-color: #10b981; }
+.badge { position: absolute; top: 10px; right: 10px; font-size: 12px; background: #334155; padding: 4px 8px; border-radius: 4px; }
+.close-btn { width: 100%; margin-top: 15px; padding: 10px; border: none; border-radius: 6px; background: #3b82f6; color: white; cursor: pointer; font-weight: 600; }
+.close-btn:hover { background: #2563eb; }
+
+/* --- MODERN RCA MODAL STYLES --- */
+
+/* Modal Overlay: Smooth blur effect for focus */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(15, 23, 42, 0.9); /* Matching your body background */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal Content: Matching Slate theme */
+.modal-content.rca-modal {
+  background: #1e293b; /* Matching your .navbar and .card */
+  color: white;
+  padding: 32px;
+  border-radius: 16px;
+  width: 550px;
+  max-width: 90%;
+  border: 1px solid #334155;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rca-modal h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f8fafc;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 16px;
+}
+
+/* Grouping Labels and Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rca-modal label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #94a3b8; /* Slate-400 */
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.rca-modal select, 
+.rca-modal textarea, 
+.rca-modal input {
+  background: #0f172a; /* Darker slate for inputs */
+  border: 1px solid #334155;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.rca-modal select:focus, 
+.rca-modal textarea:focus,
+.rca-modal input:focus {
+  border-color: #3b82f6; /* Blue-500 matching your button */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.rca-modal textarea {
+  height: 100px;
+  resize: none;
+}
+
+/* Side-by-side layout for times */
+.time-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Buttons: High emphasis for Submit */
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.submit-rca-btn {
+  flex: 2;
+  background: #3b82f6; /* Matching your .close-btn */
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submit-rca-btn:hover {
+  background: #2563eb;
+}
+
+.cancel-btn {
+  flex: 1;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #334155;
+  color: white;
+}
